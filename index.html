@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Given Agenda — Talent Booking &amp; Artist Management</title>
+<meta name="description" content="Given Agenda is a talent booking, artist representation, and entertainment logistics company focused on Latin music artists — connecting talent with promoters, venues, festivals, brands, and private events.">
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --bg-alt: #131315;
+    --text: #f2f1ee;
+    --text-muted: #a8a6a1;
+    --accent: #8b5cf6;
+    --border: #26262a;
+    --max-width: 1100px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11,11,12,0.9);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .logo img {
+    height: 30px;
+    width: auto;
+    display: block;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin-left: 28px;
+    transition: color 0.2s ease;
+  }
+  nav a:hover { color: var(--text); }
+
+  .hero {
+    padding: 90px 0 100px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-text .eyebrow {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .hero-text h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 22px;
+  }
+  .hero-text p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 34px;
+  }
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    min-height: 420px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 860px) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 36px; }
+    .hero-photo { order: -1; min-height: 280px; }
+  }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #14140f;
+    padding: 14px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity 0.2s ease;
+  }
+  .btn:hover { opacity: 0.85; }
+
+  section { padding: 90px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 700;
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+  .lead {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .service-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 28px;
+  }
+  .service-card .num {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .service-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+  .service-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .artist-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px 24px;
+    text-align: center;
+    background: var(--bg-alt);
+  }
+  .artist-card .initial {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #14140f;
+    font-weight: 700;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .artist-card h3 { font-size: 1.1rem; }
+
+  .contact-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  .contact-info a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .contact-info a:hover { text-decoration: underline; }
+
+  footer {
+    background: var(--bg-alt);
+    border-top: 2px solid var(--accent);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 70px 0 50px;
+  }
+  .footer-brand img {
+    height: 28px;
+    width: auto;
+    margin-bottom: 16px;
+  }
+  .footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    margin-bottom: 12px;
+    transition: color 0.2s ease;
+  }
+  .footer-col a:hover { color: var(--text); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 26px 0;
+    border-top: 1px solid var(--border);
+  }
+  .footer-bottom p {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 90px 0 70px; }
+    section { padding: 64px 0; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; padding: 50px 0 36px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#" class="logo"><img src="logo.png" alt="Given Agenda"></a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="eyebrow">Talent Booking &amp; Artist Management</div>
+      <h1>Connecting Latin music talent with the stages, brands, and events that need them.</h1>
+      <p>Given Agenda is a talent booking, artist representation, and entertainment logistics company. We develop and execute opportunities for Latin music artists, handling everything from negotiation to production on the ground.</p>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+    <div class="hero-photo">
+      <img src="hero-photo.jpg" alt="Given Agenda artist performing live">
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">About</div>
+    <h2>More than getting a date — we run the whole booking.</h2>
+    <p class="lead">Given Agenda is the point of connection between talent and opportunity. We connect artists with promoters, venues, festivals, brands, and private events, and manage the full process around every hire.</p>
+    <p class="lead">That means commercial negotiation, contracts, invoicing, payment coordination, flights, lodging, transportation, riders, hospitality, and production logistics — across Puerto Rico, the United States, and international markets. We work with flat fee, buyout, and all-in contracting models, adapting to each event and market.</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-label">Services</div>
+    <h2>What we handle, start to finish.</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="num">01</div>
+        <h3>Booking &amp; Representation</h3>
+        <p>We develop and secure opportunities for our artists — clubs, festivals, private events, and brand activations — acting as the direct link to promoters and venues.</p>
+      </div>
+      <div class="service-card">
+        <div class="num">02</div>
+        <h3>Negotiation &amp; Contracts</h3>
+        <p>Commercial negotiation, contracting, invoicing, and payment coordination, structured around flat fee, buyout, or all-in models depending on the event.</p>
+      </div>
+      <div class="service-card">
+        <div class="num">03</div>
+        <h3>Travel &amp; Production Logistics</h3>
+        <p>Flights, lodging, transportation, riders, hospitality, and on-site production coordination — handled end to end, in Puerto Rico, the U.S., and international markets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="artists">
+  <div class="wrap">
+    <div class="section-label">Artists</div>
+    <h2>Who we represent.</h2>
+    <div class="artists-grid">
+      <div class="artist-card">
+        <div class="initial">FR</div>
+        <h3>Fanta Rosario</h3>
+      </div>
+      <div class="artist-card">
+        <div class="initial">VH</div>
+        <h3>Vei Habache</h3>
+      </div>
+      <div class="artist-card">
+        <div class="initial">TB</div>
+        <h3>Tommy Blanco</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-label">Contact</div>
+    <h2>Booking inquiries &amp; general contact.</h2>
+    <div class="contact-block">
+      <div class="contact-info">
+        <a href="mailto:givenagenda@gmail.com">givenagenda@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <img src="logo.png" alt="Given Agenda">
+      <p>Talent booking, artist representation, and entertainment logistics for Latin music artists — Puerto Rico, the U.S., and international markets.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Site</h4>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#artists">Artists</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:givenagenda@gmail.com">givenagenda@gmail.com</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>&copy; 2026 Given Agenda. All rights reserved.</p>
+    <p>Puerto Rico &middot; United States &middot; International</p>
+  </div>
+</footer>
+
+</body>
+</html>
