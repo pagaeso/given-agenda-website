@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- deploy pipeline test #2: git reconnected -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -200,6 +199,23 @@
     margin: 0 auto 18px;
   }
   .artist-card h3 { font-size: 1.1rem; }
+  .artist-card[href] {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .artist-card[href]:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .artist-card .view-kit {
+    display: block;
+    margin-top: 10px;
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
 
   .contact-block {
     display: flex;
@@ -335,10 +351,11 @@
     <div class="section-label">Artists</div>
     <h2>Who we represent.</h2>
     <div class="artists-grid">
-      <div class="artist-card">
+      <a href="presskit/fanta-rosario.html" class="artist-card">
         <div class="initial">FR</div>
         <h3>Fanta Rosario</h3>
-      </div>
+        <span class="view-kit">View press kit &rarr;</span>
+      </a>
       <div class="artist-card">
         <div class="initial">VH</div>
         <h3>Vei Habache</h3>

@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fanta Rosario — Electronic Press Kit by Given Agenda">
+  <title>Fanta Rosario — EPK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0c0c0c;
+      --panel:#141414;
+      --text:#f4f4f2;
+      --muted:#96968f;
+      --muted-dim:#66665f;
+      --line:#232323;
+      --accent:#33e065;
+      --radius:14px;
+      --gap:14px;
+      --font:'Inter',-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* subtle film-grain overlay for a premium/print feel */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:999;
+      opacity:.035;
+      mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+
+    ::selection{background:var(--accent);color:#0c0c0c}
+
+    a:focus-visible,
+    .tile:focus-visible,
+    button:focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:3px;
+      border-radius:6px;
+    }
+
+    .page{
+      display:grid;
+      grid-template-columns: 360px minmax(0,1fr);
+      min-height:100vh;
+      gap:28px;
+      padding:14px;
+      max-width:1440px;
+      margin:0 auto;
+    }
+
+    /* ---------- LEFT COLUMN ---------- */
+    .sidebar{
+      position:sticky;
+      top:14px;
+      height:calc(100vh - 28px);
+      padding:16px 4px 14px 2px;
+      display:flex;
+      flex-direction:column;
+      overflow:auto;
+      scrollbar-width:none;
+      animation:fadeUp .6s ease both;
+    }
+    .sidebar::-webkit-scrollbar{display:none}
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .artist-head{
+      display:flex;
+      align-items:center;
+      gap:13px;
+      margin-bottom:32px;
+    }
+
+    .avatar{
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 32%,#c99872 0 17%,transparent 18%),
+        linear-gradient(145deg,#6b5644,#181818 65%);
+      flex:0 0 auto;
+      box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;
+    }
+
+    .artist-name{
+      font-size:25px;
+      font-weight:700;
+      letter-spacing:-.045em;
+      margin:0 0 3px;
+    }
+
+    .artist-role{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:14.5px;
+      color:var(--muted);
+      margin:0;
+    }
+
+    .verified{
+      width:14px;height:14px;
+      color:var(--accent);
+      flex:0 0 auto;
+    }
+
+    .intro{
+      font-size:19px;
+      line-height:1.4;
+      letter-spacing:-.025em;
+      margin:0 0 26px;
+      max-width:325px;
+      color:#e9e9e6;
+    }
+
+    .availability{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:28px;
+    }
+
+    .dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--accent);
+      display:inline-block;
+      box-shadow:0 0 0 3px rgba(51,224,101,.16);
+      animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{box-shadow:0 0 0 3px rgba(51,224,101,.16)}
+      50%{box-shadow:0 0 0 6px rgba(51,224,101,.06)}
+    }
+
+    .button{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      justify-content:center;
+      align-self:flex-start;
+      min-height:40px;
+      padding:0 19px;
+      background:#fff;
+      color:#111;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:650;
+      margin-bottom:52px;
+      transition:.2s ease;
+    }
+    .button:hover{transform:translateY(-1px);opacity:.9;box-shadow:0 6px 20px rgba(255,255,255,.12)}
+    .button svg{width:14px;height:14px}
+
+    .rule{
+      border:0;
+      border-top:1px solid var(--line);
+      margin:0 0 32px;
+      width:100%;
+    }
+
+    .logos{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      margin-bottom:32px;
+      flex-wrap:wrap;
+    }
+
+    .logo-link{
+      color:#7c7c76;
+      display:flex;
+      align-items:center;
+      transition:color .2s ease, transform .2s ease;
+    }
+    .logo-link svg{width:19px;height:19px}
+    .logo-link:hover{color:var(--text);transform:translateY(-1px)}
+
+    .section{
+      margin-bottom:36px;
+    }
+
+    .section h2{
+      font-size:16px;
+      letter-spacing:-.02em;
+      margin:0 0 14px;
+      font-weight:600;
+      color:#dcdcd8;
+    }
+
+    .section p{
+      margin:0;
+      color:var(--muted);
+      font-size:14.5px;
+      line-height:1.6;
+    }
+
+    .facts{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 12px;
+      margin-top:22px;
+    }
+
+    .fact{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+
+    .fact strong{
+      font-size:21px;
+      font-weight:700;
+      letter-spacing:-.03em;
+      color:var(--text);
+      font-variant-numeric:tabular-nums;
+    }
+
+    .fact span{
+      color:var(--muted-dim);
+      font-size:12.5px;
+      line-height:1.35;
+    }
+
+    .links{
+      display:grid;
+      gap:8px;
+    }
+
+    .links a{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:14px;
+      color:var(--muted);
+      padding:2px 0;
+      transition:color .15s ease;
+    }
+    .links a:hover{color:var(--text)}
+    .links a .arrow{opacity:0;transform:translateX(-3px);transition:.15s ease}
+    .links a:hover .arrow{opacity:1;transform:translateX(0)}
+
+    .footer-note{
+      color:#54544f;
+      font-size:11px;
+      margin-top:auto;
+      padding-top:16px;
+    }
+
+    /* ---------- RIGHT COLUMN ---------- */
+    .gallery{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:var(--gap);
+      align-content:start;
+    }
+
+    .tile{
+      background:#1c1c1c;
+      border-radius:var(--radius);
+      overflow:hidden;
+      position:relative;
+      min-height:320px;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.04);
+      opacity:0;
+      animation:tileIn .55s ease both;
+    }
+    .tile:nth-child(1){animation-delay:.05s}
+    .tile:nth-child(2){animation-delay:.1s}
+    .tile:nth-child(3){animation-delay:.15s}
+    .tile:nth-child(4){animation-delay:.2s}
+    .tile:nth-child(5){animation-delay:.25s}
+    .tile:nth-child(6){animation-delay:.3s}
+    .tile:nth-child(7){animation-delay:.35s}
+
+    @keyframes tileIn{
+      from{opacity:0;transform:scale(.97)}
+      to{opacity:1;transform:scale(1)}
+    }
+
+    .tile::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.55));
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    .tile:hover::after{opacity:1}
+
+    .tile .tile-photo{
+      position:absolute;
+      inset:0;
+      transition:transform .5s cubic-bezier(.2,.8,.2,1);
+    }
+    .tile:hover .tile-photo{transform:scale(1.045)}
+
+    .tile.tall{grid-row:span 2; min-height:720px}
+    .tile.wide{grid-column:span 2; min-height:430px}
+    .tile.medium{min-height:430px}
+    .tile.small{min-height:300px}
+
+    .photo-1{
+      background:
+        radial-gradient(circle at 55% 35%,#c99a7c 0 11%,transparent 12%),
+        radial-gradient(ellipse at 50% 48%,#95695475 0 18%,transparent 19%),
+        linear-gradient(150deg,#0b0b0b 0 24%,#565656 47%,#111 100%);
+    }
+
+    .photo-2{
+      background:
+        radial-gradient(ellipse at 50% 73%,rgba(255,255,255,.4),transparent 24%),
+        linear-gradient(140deg,#090909,#4c4c4c 40%,#111 100%);
+    }
+
+    .photo-3{
+      background:
+        radial-gradient(circle at 50% 34%,#1a1a1a 0 14%,transparent 15%),
+        linear-gradient(145deg,#c2c2c2,#5e5e5e 55%,#111);
+    }
+
+    .photo-4{
+      background:
+        linear-gradient(180deg,transparent 52%,rgba(0,0,0,.55)),
+        radial-gradient(circle at 48% 35%,#bd8462 0 10%,transparent 11%),
+        linear-gradient(135deg,#17110d,#7d6049 55%,#0d0d0d);
+    }
+
+    .photo-5{
+      background:
+        linear-gradient(180deg,transparent 60%,rgba(0,0,0,.68)),
+        linear-gradient(120deg,#c8c8c8,#6a6a6a 50%,#121212);
+    }
+
+    .photo-6{
+      background:
+        radial-gradient(circle at 58% 40%,#a9816b 0 9%,transparent 10%),
+        linear-gradient(145deg,#171717,#786f64 58%,#1b1b1b);
+    }
+
+    .tile-label{
+      position:absolute;
+      left:16px;
+      bottom:15px;
+      right:16px;
+      font-size:12px;
+      color:#fff;
+      opacity:.92;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .play{
+      position:absolute;
+      width:56px;height:56px;
+      border-radius:50%;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      background:rgba(255,255,255,.94);
+      color:#111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      z-index:2;
+      transition:transform .25s ease;
+    }
+    .tile:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+
+    /* lightbox */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background:rgba(6,6,6,.92);
+      backdrop-filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1000;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease;
+      padding:40px;
+    }
+    .lightbox.open{opacity:1;pointer-events:auto}
+    .lightbox-inner{
+      width:min(720px,90vw);
+      height:min(80vh,760px);
+      border-radius:16px;
+      overflow:hidden;
+      position:relative;
+    }
+    .lightbox-close{
+      position:absolute;
+      top:-46px;right:0;
+      color:#fff;
+      font-size:13px;
+      opacity:.7;
+      cursor:pointer;
+    }
+    .lightbox-close:hover{opacity:1}
+
+    /* ---------- Show History (sidebar, text-only column) ---------- */
+    .mini-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:16px 0 22px;
+    }
+
+    .mini-stat{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .mini-stat strong{
+      font-size:19px;
+      font-weight:700;
+      letter-spacing:-.03em;
+      font-variant-numeric:tabular-nums;
+      color:var(--text);
+    }
+
+    .mini-stat span{
+      font-size:10.5px;
+      color:var(--muted-dim);
+      line-height:1.3;
+    }
+
+    .show-history-list{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .show-item{
+      padding:11px 0;
+      border-top:1px solid var(--line);
+    }
+    .show-item:last-child{border-bottom:1px solid var(--line)}
+
+    .show-item-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:10px;
+    }
+
+    .show-name{
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:-.01em;
+      color:var(--text);
+      line-height:1.3;
+    }
+
+    .show-year{
+      font-size:11.5px;
+      color:var(--muted-dim);
+      flex:0 0 auto;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .show-item-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:5px;
+      gap:8px;
+    }
+
+    .show-loc{
+      font-size:12.5px;
+      color:var(--muted);
+    }
+
+    .show-tag{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
+    .show-tag.headliner{
+      color:var(--accent);
+      border-color:rgba(51,224,101,.35);
+      background:rgba(51,224,101,.06);
+    }
+    .show-tag.unverified{
+      color:#8a8a83;
+      border-style:dashed;
+      border-color:#3a3a3a;
+    }
+
+    /* ---------- Top Catalog ---------- */
+    .catalog-list{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .catalog-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid var(--line);
+    }
+    .catalog-item:last-child{border-bottom:1px solid var(--line)}
+
+    .catalog-rank{
+      font-size:12px;
+      color:var(--muted-dim);
+      width:14px;
+      flex:0 0 auto;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .catalog-info{
+      flex:1;
+      min-width:0;
+    }
+
+    .catalog-name{
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:-.01em;
+      color:var(--text);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .catalog-plays{
+      font-size:11.5px;
+      color:var(--muted-dim);
+      margin-top:2px;
+      font-variant-numeric:tabular-nums;
+    }
+
+    /* ---------- Collaborations ---------- */
+    .collab-wrap{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:4px;
+    }
+
+    .collab-chip{
+      font-size:12.5px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      transition:color .15s ease, border-color .15s ease;
+    }
+    .collab-chip:hover{color:var(--text);border-color:#3a3a3a}
+
+    .collab-highlight{
+      margin-top:16px;
+      padding:12px 14px;
+      border-radius:10px;
+      background:rgba(51,224,101,.05);
+      border:1px solid rgba(51,224,101,.18);
+    }
+
+    .collab-highlight-label{
+      font-size:10.5px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--accent);
+      margin:0 0 4px;
+    }
+
+    .collab-highlight p{
+      color:#d8d8d4;
+      font-size:13px;
+      margin:0;
+      line-height:1.5;
+    }
+
+    /* ---------- Pending data (honest placeholder, not fake numbers) ---------- */
+    .pending-card{
+      padding:13px 14px;
+      border-radius:10px;
+      border:1px dashed #3a3a3a;
+      margin-top:6px;
+    }
+    .pending-card p{
+      margin:0;
+      font-size:12.5px;
+      line-height:1.55;
+      color:var(--muted);
+    }
+    .pending-card strong{color:var(--text)}
+
+    /* ---------- Audience — market ranking (single hue, ordinal, no invented %) ---------- */
+    .audience-chart{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin:18px 0 4px;
+    }
+
+    .audience-row{
+      display:grid;
+      grid-template-columns:96px 1fr;
+      align-items:center;
+      gap:12px;
+    }
+
+    .audience-country{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12.5px;
+      color:var(--text);
+      white-space:nowrap;
+    }
+
+    .audience-flag{font-size:13px}
+
+    .audience-bar-track{
+      height:8px;
+      border-radius:4px;
+      background:#1a1a1a;
+      overflow:hidden;
+    }
+
+    .audience-bar-fill{
+      height:100%;
+      border-radius:4px;
+      background:var(--accent);
+      animation:barGrow .7s cubic-bezier(.2,.8,.2,1) both;
+      transform-origin:left;
+    }
+    @keyframes barGrow{
+      from{transform:scaleX(0)}
+      to{transform:scaleX(1)}
+    }
+
+    .audience-caption{
+      color:var(--muted-dim);
+      font-size:11.5px;
+      line-height:1.5;
+      margin:2px 0 0;
+    }
+
+    @media (max-width:900px){
+      .page{
+        grid-template-columns:1fr;
+        gap:22px;
+      }
+      .sidebar{
+        position:relative;
+        top:auto;
+        height:auto;
+        padding-right:0;
+      }
+      .button{margin-bottom:36px}
+      .gallery{grid-template-columns:1fr 1fr}
+      .facts{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width:620px){
+      .gallery{grid-template-columns:1fr}
+      .tile.wide{grid-column:auto}
+      .tile.tall{grid-row:auto;min-height:480px}
+      .tile.medium,.tile.small{min-height:340px}
+      .artist-name{font-size:22px}
+      .intro{font-size:18px}
+      .facts{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <aside class="sidebar">
+
+      <div class="artist-head">
+        <div class="avatar"></div>
+        <div>
+          <h1 class="artist-name">Fanta Rosario</h1>
+          <p class="artist-role">
+            Artist · Puerto Rico
+            <svg class="verified" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.1 3.1-.6 1 3 3 1-.6 3.1L23 12l-2.1 2.4.6 3.1-3 1-1 3-3.1-.6L12 23l-2.4-2.1-3.1.6-1-3-3-1 .6-3.1L1 12l2.1-2.4-.6-3.1 3-1 1-3 3.1.6L12 2z"/></svg>
+          </p>
+        </div>
+      </div>
+
+      <p class="intro">
+        Puerto Rican artist delivering high-energy performances across clubs, festivals and live stages — built around presence, rhythm and audience connection.
+      </p>
+
+      <div class="availability">
+        <span class="dot"></span>
+        Available for select bookings.
+      </div>
+
+      <a href="#booking" class="button">
+        Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <hr class="rule">
+
+      <div class="logos">
+        <a href="#" class="logo-link" aria-label="Spotify" title="Spotify">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.213c3.809-.871 7.077-.496 9.712 1.113.293.18.386.563.207.857zm1.223-2.723a.778.778 0 01-1.07.256c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 11-.452-1.489c3.632-1.102 8.147-.568 11.23 1.328a.778.778 0 01.257 1.07zm.105-2.835C14.692 9.128 9.375 8.95 6.297 9.883a.933.933 0 11-.542-1.786c3.532-1.072 9.404-.865 13.115 1.338a.933.933 0 11-.956 1.6z"/></svg>
+        </a>
+        <a href="#" class="logo-link" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 00.5 6.2 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.8 3.02 3.02 0 002.12 2.14c1.88.56 9.38.56 9.38.56s7.5 0 9.38-.56a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>
+        </a>
+        <a href="#" class="logo-link" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82a4.28 4.28 0 01-3.14-1.4V15.2a4.7 4.7 0 11-4.06-4.66v2.44a2.3 2.3 0 102.06 2.29V2h2.3a4.28 4.28 0 001.7 3.14 4.27 4.27 0 002.94 1.18v2.32a6.6 6.6 0 01-1.8-.24V5.82z"/></svg>
+        </a>
+        <a href="#" class="logo-link" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 011.77 1.15 4.9 4.9 0 011.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 01-1.15 1.77 4.9 4.9 0 01-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 01-1.77-1.15 4.9 4.9 0 01-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 011.15-1.77A4.9 4.9 0 015.59 1.8c.46-.16 1.26-.35 2.43-.4C9.29 1.34 9.67 1.33 12.87 1.33M12 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zm0 10.16A4 4 0 1116 12a4 4 0 01-4 4zm6.4-10.4a1.44 1.44 0 11-1.44-1.44 1.44 1.44 0 011.44 1.44z"/></svg>
+        </a>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>About.</h2>
+        <p>
+          Fanta Rosario is a Puerto Rican artist with a rapidly growing audience across the United States, Puerto Rico, Spain and Latin America.
+        </p>
+
+        <div class="facts">
+          <div class="fact"><strong>2.6M+</strong><span>Spotify monthly listeners</span></div>
+          <div class="fact"><strong>46K+</strong><span>Spotify followers</span></div>
+          <div class="fact"><strong>36K+</strong><span>YouTube subscribers</span></div>
+          <div class="fact"><strong>6.5M+</strong><span>Streams on lead single</span></div>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>Top catalog.</h2>
+
+        <div class="catalog-list">
+          <div class="catalog-item">
+            <span class="catalog-rank">01</span>
+            <div class="catalog-info">
+              <div class="catalog-name">Si Me Hiciera El de la Lengua (Remix)</div>
+              <div class="catalog-plays">6.6M streams · feat. Luar La L</div>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <span class="catalog-rank">02</span>
+            <div class="catalog-info">
+              <div class="catalog-name">Si Me Hiciera El de la Lengua</div>
+              <div class="catalog-plays">6.4M streams</div>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <span class="catalog-rank">03</span>
+            <div class="catalog-info">
+              <div class="catalog-name">GUAO</div>
+              <div class="catalog-plays">2.9M streams · feat. Tommy Blanco, VEI HABACHE</div>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <span class="catalog-rank">04</span>
+            <div class="catalog-info">
+              <div class="catalog-name">ADM</div>
+              <div class="catalog-plays">2.0M streams</div>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <span class="catalog-rank">05</span>
+            <div class="catalog-info">
+              <div class="catalog-name">No Te Kashi</div>
+              <div class="catalog-plays">1.4M streams</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="color:var(--muted-dim);font-size:12px;margin-top:10px;line-height:1.5">
+          Also streaming: DICEN · ALL WHITE · LATIGAZO · Marbella · COMBI CHINA Y PAL DE PASE (On The Radar)
+        </p>
+
+        <div class="links" style="margin-top:14px">
+          <a href="https://open.spotify.com/intl-es/artist/60QJavT1315GeS57lU0YXN" target="_blank" rel="noopener">Full catalog on Spotify <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>Collaborations.</h2>
+        <p>Worked alongside established names across generations of the urban PR scene.</p>
+
+        <div class="collab-wrap">
+          <span class="collab-chip">Ñengo Flow</span>
+          <span class="collab-chip">Jon Z</span>
+          <span class="collab-chip">Hades66</span>
+          <span class="collab-chip">Luar La L</span>
+          <span class="collab-chip">Tommy Blanco</span>
+          <span class="collab-chip">VEI HABACHE</span>
+          <span class="collab-chip">Los G4</span>
+        </div>
+
+        <div class="collab-highlight">
+          <p class="collab-highlight-label">Featured release</p>
+          <p>"Si Me Hiciera El de la Lengua (Remix)" — with Ñengo Flow, Jon Z, Hades66 & Luar La L. Jul 2026.</p>
+        </div>
+
+        <div class="collab-highlight" style="margin-top:10px">
+          <p class="collab-highlight-label">Press credit</p>
+          <p>Freestyle session with On The Radar Radio — "COMBI CHINA Y PAL DE PASE."</p>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>Show History.</h2>
+
+        <div class="show-history-list">
+          <div class="show-item">
+            <div class="show-item-top">
+              <span class="show-name">GROOVE Festival</span>
+              <span class="show-year">2026</span>
+            </div>
+            <div class="show-item-bottom">
+              <span class="show-loc">Puerto Rico</span>
+              <span class="show-tag headliner">Live</span>
+            </div>
+          </div>
+
+          <div class="show-item">
+            <div class="show-item-top">
+              <span class="show-name">Blvck Cat Bistro Cafe</span>
+              <span class="show-year">Jun 2026</span>
+            </div>
+            <div class="show-item-bottom">
+              <span class="show-loc">Orlando, USA</span>
+              <span class="show-tag unverified">Unverified</span>
+            </div>
+          </div>
+
+          <div class="show-item">
+            <div class="show-item-top">
+              <span class="show-name">Buenos Aires</span>
+              <span class="show-year">Aug 2026</span>
+            </div>
+            <div class="show-item-bottom">
+              <span class="show-loc">Buenos Aires, Argentina</span>
+              <span class="show-tag unverified">Unverified</span>
+            </div>
+          </div>
+        </div>
+        <p class="audience-caption">Orlando and Buenos Aires dates came from resale-site listings I couldn't confirm directly — verify before this goes live.</p>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>Audience.</h2>
+        <p>Home base in Puerto Rico, with active markets across Spain and Latin America.</p>
+
+        <div class="audience-chart">
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇵🇷</span>Puerto Rico</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:100%;opacity:1;animation-delay:.05s"></div></div>
+          </div>
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇪🇸</span>Spain</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:82%;opacity:.86;animation-delay:.1s"></div></div>
+          </div>
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇨🇴</span>Colombia</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:68%;opacity:.72;animation-delay:.15s"></div></div>
+          </div>
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇦🇷</span>Argentina</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:56%;opacity:.6;animation-delay:.2s"></div></div>
+          </div>
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇺🇸</span>United States</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:46%;opacity:.5;animation-delay:.25s"></div></div>
+          </div>
+          <div class="audience-row">
+            <span class="audience-country"><span class="audience-flag">🇨🇷</span>Costa Rica</span>
+            <div class="audience-bar-track"><div class="audience-bar-fill" style="width:38%;opacity:.42;animation-delay:.3s"></div></div>
+          </div>
+        </div>
+        <p class="audience-caption">Ranked by market activity per Given Agenda — not proportional streaming data.</p>
+
+        <div class="pending-card">
+          <p><strong>Exact %, age/gender split and IG/TikTok followers not yet available.</strong> These require Spotify for Artists access or a connected analytics tool (Chartmetric/Songstats) — not published anywhere public.</p>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div class="section">
+        <h2>Booking.</h2>
+        <p id="booking">
+          Full Show · Showcase · Host · Private Events · International
+        </p>
+        <div class="links" style="margin-top:14px">
+          <a href="mailto:booking@givenagenda.com">booking@givenagenda.com <span class="arrow">↗</span></a>
+          <a href="#">Given Agenda <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Representation & booking by Given Agenda · 2026
+      </div>
+    </aside>
+
+    <section class="gallery">
+      <div class="tile tall photo-1" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Press Portrait</span>
+      </div>
+
+      <div class="tile medium photo-2" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Campaign</span>
+      </div>
+
+      <div class="tile tall photo-3" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Live / Motion</span>
+      </div>
+
+      <div class="tile medium photo-4" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Performance</span>
+        <div class="play">▶</div>
+      </div>
+
+      <div class="tile wide photo-5" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Featured Live Show</span>
+      </div>
+
+      <div class="tile medium photo-6" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Backstage</span>
+      </div>
+
+      <div class="tile medium photo-1" data-lightbox>
+        <div class="tile-photo"></div>
+        <span class="tile-label">Press Asset</span>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <span class="lightbox-close" id="lightboxClose">Close ✕</span>
+      <div id="lightboxContent" style="position:absolute;inset:0"></div>
+    </div>
+  </div>
+
+  <script>
+    // Lightweight click-to-expand for gallery tiles — placeholder behavior,
+    // swaps in the real photo once actual assets replace the gradient tiles.
+    var lightbox = document.getElementById('lightbox');
+    var lightboxContent = document.getElementById('lightboxContent');
+    document.querySelectorAll('[data-lightbox]').forEach(function(tile){
+      tile.addEventListener('click', function(){
+        var photoClass = Array.from(tile.classList).find(function(c){return c.startsWith('photo-')});
+        lightboxContent.className = '';
+        lightboxContent.style.background = getComputedStyle(tile.querySelector('.tile-photo') || tile).background;
+        var photoEl = tile.querySelector('.tile-photo');
+        lightboxContent.style.cssText += ';' + (photoEl ? getComputedStyle(photoEl).cssText : '');
+        lightboxContent.style.background = window.getComputedStyle(photoEl || tile).background;
+        lightbox.classList.add('open');
+      });
+    });
+    function closeLightbox(){ lightbox.classList.remove('open'); }
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>
