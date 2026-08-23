@@ -382,6 +382,28 @@
       gap:6px;
     }
 
+    .tiktok-card{
+      grid-column:span 2;
+      background:#1c1c1c;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.04);
+      padding:20px;
+      opacity:0;
+      animation:tileIn .55s ease both;
+    }
+    .tiktok-card-label{
+      display:block;
+      font-size:12px;
+      color:var(--accent);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:600;
+      margin-bottom:16px;
+    }
+    @media (max-width:860px){
+      .tiktok-card{grid-column:span 1}
+    }
+
     .play{
       position:absolute;
       width:56px;height:56px;
@@ -984,6 +1006,12 @@
       <div class="tile medium" data-lightbox>
         <div class="tile-photo" style="background-image:url('images/press-asset.jpg');background-size:cover;background-position:center top"></div>
         <span class="tile-label">Press Asset</span>
+      </div>
+
+      <div class="tiktok-card">
+        <span class="tiktok-card-label">Latest on TikTok</span>
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-ab9baed0-04e7-492a-bd52-b5fc04a97a9c" data-elfsight-app-lazy></div>
       </div>
     </section>
 
