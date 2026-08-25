@@ -351,9 +351,23 @@
 </header>
 
 <section class="hero-video-section">
-  <video class="hero-video-bg" autoplay muted loop playsinline poster="hero-photo.jpg">
+  <video id="heroVideo" class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="hero-photo.jpg">
     <source src="https://videos.pexels.com/video-files/29361041/12652089_1920_1080_24fps.mp4" type="video/mp4">
   </video>
+  <script>
+    (function () {
+      var v = document.getElementById('heroVideo');
+      if (!v) return;
+      v.muted = true;
+      var tryPlay = function () { v.play().catch(function () {}); };
+      tryPlay();
+      v.addEventListener('loadedmetadata', tryPlay);
+      v.addEventListener('canplay', tryPlay);
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) tryPlay();
+      });
+    })();
+  </script>
   <div class="hero-video-overlay"></div>
   <div class="wrap hero-video-content">
     <div class="eyebrow">Talent Booking &amp; Artist Management</div>
