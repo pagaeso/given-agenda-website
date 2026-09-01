@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Acreditación de Prensa — Given Agenda</title>
+  <style>
+    :root{--bg:#f4f1ea;--card:#fbfaf6;--text:#151515;--muted:#6f6c65;--line:#d9d4ca;--accent:#242b22;--accent-text:#fff;--notice:#ece8de;--error:#8a2b2b}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    .page{min-height:100vh;display:grid;grid-template-columns:.9fr 1.1fr}.intro{padding:64px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line)}
+    .brand{font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.intro-copy{max-width:520px;margin:80px 0}.eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:18px}
+    h1{margin:0 0 28px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,7vw,92px);line-height:.92;letter-spacing:-.04em;font-weight:500}.intro p{margin:0;max-width:510px;font-size:18px;line-height:1.6;color:var(--muted)}
+    .excluded{margin-top:34px;padding-left:16px;border-left:2px solid var(--line);max-width:460px;font-size:14px;line-height:1.6;color:var(--muted)}.footer-note{font-size:12px;color:var(--muted)}
+    .form-side{padding:64px;display:flex;align-items:center;justify-content:center}.form-wrap{width:min(100%,650px)}.form-header{margin-bottom:30px}.form-header h2{margin:0 0 10px;font-size:28px;font-weight:600;letter-spacing:-.02em}.form-header p{margin:0;color:var(--muted);line-height:1.55}
+    .notice{margin-bottom:30px;padding:18px 20px;border:1px solid var(--line);background:var(--notice);font-size:14px;line-height:1.6}.field{margin-bottom:22px}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    label{display:block;margin-bottom:8px;font-size:13px;font-weight:650}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 14px;font:inherit;font-size:16px;outline:none;transition:.2s ease}input,select{height:52px}textarea{min-height:120px;padding-top:14px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:#6a6a62;box-shadow:0 0 0 3px rgba(0,0,0,.04)}.optional{color:var(--muted);font-weight:400}.checkbox{display:flex;align-items:flex-start;gap:10px;margin:28px 0;font-size:13px;line-height:1.55;color:var(--muted)}.checkbox input{width:16px;height:16px;margin-top:2px;flex:0 0 auto}
+    button{width:100%;height:54px;border:0;background:var(--accent);color:var(--accent-text);font-size:14px;font-weight:700;letter-spacing:.04em;cursor:pointer}button:hover{opacity:.92}button:disabled{opacity:.6;cursor:default}.fineprint{margin-top:16px;font-size:12px;line-height:1.5;color:var(--muted)}
+    .form-error{display:none;margin:0 0 20px;padding:14px 16px;border:1px solid var(--error);background:#f7e9e9;color:var(--error);font-size:13px;line-height:1.5}
+    .success{display:none;padding:28px;border:1px solid var(--line);background:var(--card);line-height:1.6}
+    @media(max-width:860px){.page{grid-template-columns:1fr}.intro{min-height:auto;padding:32px 24px;border-right:0;border-bottom:1px solid var(--line)}.intro-copy{margin:64px 0 32px}h1{font-size:58px}.form-side{padding:42px 24px 60px}}@media(max-width:600px){.two-cols{grid-template-columns:1fr;gap:0}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="intro">
+      <div class="brand">Given Agenda</div>
+      <div class="intro-copy">
+        <div class="eyebrow">Media Credentials</div>
+        <h1>Acreditación<br>de Prensa</h1>
+        <p>Solicitud de acceso para fotógrafos, videógrafos, streamers, prensa escrita y medios digitales interesados en realizar cobertura del evento.</p>
+        <div class="excluded">Para este evento no se estarán considerando solicitudes de podcasts dentro del programa de acreditación de prensa.</div>
+      </div>
+      <div class="footer-note">Registro privado de medios · Given Agenda</div>
+    </section>
+    <section class="form-side">
+      <div class="form-wrap">
+        <div id="formContent">
+          <div class="form-header">
+            <h2>Solicita tu acreditación</h2>
+            <p>Completa la información de la persona que estará realizando la cobertura del evento.</p>
+          </div>
+          <div class="notice"><strong>Importante:</strong> completar este formulario no garantiza acreditación ni acceso al evento. Todas las solicitudes están sujetas a revisión, disponibilidad de credenciales, necesidades de producción y capacidad del venue.</div>
+
+          <div class="form-error" id="formError"></div>
+
+          <form id="pressForm">
+            <div class="field"><label for="name">Nombre completo</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+            <div class="two-cols">
+              <div class="field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+              <div class="field"><label for="phone">Número de teléfono</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+            </div>
+            <div class="field"><label for="outlet">Medio, publicación o compañía que representa</label><input id="outlet" name="outlet" type="text" required></div>
+            <div class="field"><label for="mediaType">Tipo de medio / cobertura</label><select id="mediaType" name="mediaType" required><option value="">Selecciona una opción</option><option value="photography">Fotografía</option><option value="video">Videografía</option><option value="streaming">Streaming</option><option value="written-press">Prensa escrita</option><option value="digital-media">Medio digital / editorial</option><option value="other-editorial">Otro medio editorial</option></select></div>
+            <div class="field"><label for="mediaLink">Website, red social o perfil del medio</label><input id="mediaLink" name="mediaLink" type="url" placeholder="https://" required></div>
+            <div class="field"><label for="portfolio">Enlace a trabajos anteriores <span class="optional">(opcional)</span></label><input id="portfolio" name="portfolio" type="url" placeholder="https://"></div>
+            <div class="checkbox"><input id="ack" name="ack" type="checkbox" required><label for="ack" style="margin:0;font-weight:400;">Entiendo que enviar esta solicitud no garantiza acreditación ni acceso al evento y que todas las solicitudes están sujetas a revisión, disponibilidad y capacidad del venue.</label></div>
+            <button type="submit" id="submitBtn">Enviar solicitud</button>
+            <div class="fineprint">Si tu solicitud es aprobada, recibirás por correo electrónico las instrucciones y detalles correspondientes a tu acreditación.</div>
+          </form>
+        </div>
+        <div class="success" id="successMessage">
+          <h2 style="margin-top:0;">Solicitud recibida.</h2>
+          <p>Hemos recibido tu solicitud de acreditación de prensa para revisión.</p>
+          <p>Esta confirmación no constituye una acreditación ni garantiza acceso al evento.</p>
+          <p>Si tu solicitud es aprobada, recibirás las instrucciones correspondientes por correo electrónico.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Backend: Given Agenda OS (Notion vía API interna). Form vive en
+    // givenagenda.com, el endpoint vive en mygivenagenda.com — llamada
+    // cross-domain, requiere CORS habilitado del lado del portal.
+    var API_ENDPOINT = 'https://mygivenagenda.com/api/acreditacion-prensa';
+
+    var form = document.getElementById('pressForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var errorBox = document.getElementById('formError');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      errorBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando…';
+
+      var payload = {
+        nombre: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        telefono: document.getElementById('phone').value.trim(),
+        medio: document.getElementById('outlet').value.trim(),
+        tipoMedio: document.getElementById('mediaType').value,
+        linkMedio: document.getElementById('mediaLink').value.trim(),
+        portfolio: document.getElementById('portfolio').value.trim()
+      };
+
+      fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok || data.error) {
+              throw new Error(data.error || 'No se pudo enviar la solicitud.');
+            }
+            return data;
+          });
+        })
+        .then(function () {
+          document.getElementById('formContent').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+        })
+        .catch(function () {
+          errorBox.textContent = 'Hubo un problema al enviar tu solicitud. Intenta de nuevo en unos minutos. Si el problema continúa, escríbenos a givenagenda@gmail.com.';
+          errorBox.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar solicitud';
+        });
+    });
+  </script>
+</body>
+</html>
