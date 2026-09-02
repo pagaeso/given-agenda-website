@@ -146,6 +146,8 @@
       margin:-4px 0 12px;
     }
 
+    .optional-inline{color:var(--muted);font-weight:400}
+
     input{
       width:100%;
       height:50px;
@@ -159,9 +161,23 @@
       font-family:inherit;
     }
 
-    input::placeholder{color:#5a5a5e}
+    textarea{
+      width:100%;
+      min-height:90px;
+      border:1px solid var(--line);
+      background:var(--card);
+      color:var(--text);
+      padding:12px 14px;
+      font-size:16px;
+      outline:none;
+      transition:.2s ease;
+      font-family:inherit;
+      resize:vertical;
+    }
 
-    input:focus{
+    input::placeholder, textarea::placeholder{color:#5a5a5e}
+
+    input:focus, textarea:focus{
       border-color:var(--accent);
       box-shadow:0 0 0 3px rgba(139,92,246,.18);
     }
@@ -313,6 +329,11 @@
               <strong>Importante:</strong> Registra tu nombre y el de las personas de tu crew que te van a
               acompañar (hasta 10 adicionales). Esta información se usa para coordinar accesos del día del evento.
             </p>
+            <p>
+              Nos estaremos comunicando con la persona de contacto que registres aquí para coordinar
+              logística, horarios y accesos. Escribe ahí el contacto principal para estos temas — ya sea
+              manager, tour manager, producción, etc.
+            </p>
           </div>
 
           <div class="form-error" id="formError"></div>
@@ -321,6 +342,12 @@
             <div class="field">
               <label for="artistName">Nombre del artista</label>
               <input id="artistName" name="artistName" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="field">
+              <label for="contactName">Persona de contacto (producción)</label>
+              <span class="sublabel">Manager, tour manager, producción, etc. — con quien coordinaremos logística y horarios.</span>
+              <input id="contactName" name="contactName" type="text" autocomplete="name" required />
             </div>
 
             <div class="field">
@@ -341,6 +368,11 @@
               <input id="phone" name="phone" type="tel" autocomplete="tel" required />
             </div>
 
+            <div class="field">
+              <label for="notes">Notas <span class="optional-inline">(opcional)</span></label>
+              <textarea id="notes" name="notes" placeholder="Cualquier información adicional relevante para logística."></textarea>
+            </div>
+
             <button type="submit" id="submitBtn">Enviar registro</button>
 
             <div class="fineprint">
@@ -353,7 +385,7 @@
         <div class="success" id="successMessage">
           <h2>Registro recibido.</h2>
           <p>Hemos recibido el registro del artista y su crew para el evento.</p>
-          <p>El equipo de Given Agenda coordinará los accesos correspondientes.</p>
+          <p>Nos estaremos comunicando con la persona de contacto registrada para coordinar logística, horarios y accesos.</p>
         </div>
       </div>
     </section>
@@ -424,9 +456,11 @@
 
       var payload = {
         nombre: document.getElementById('artistName').value.trim(),
+        contacto: document.getElementById('contactName').value.trim(),
         crew: crew,
         email: document.getElementById('email').value.trim(),
-        telefono: document.getElementById('phone').value.trim()
+        telefono: document.getElementById('phone').value.trim(),
+        notas: document.getElementById('notes').value.trim()
       };
 
       fetch(API_ENDPOINT, {
