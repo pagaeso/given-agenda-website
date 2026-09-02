@@ -148,7 +148,7 @@
 
     .optional-inline{color:var(--muted);font-weight:400}
 
-    input{
+    input, select{
       width:100%;
       height:50px;
       border:1px solid var(--line);
@@ -160,6 +160,17 @@
       transition:.2s ease;
       font-family:inherit;
     }
+
+    select{
+      appearance:none;
+      -webkit-appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a8a6a1' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 14px center;
+      padding-right:36px;
+    }
+
+    select option{background:var(--card);color:var(--text)}
 
     textarea{
       width:100%;
@@ -177,7 +188,7 @@
 
     input::placeholder, textarea::placeholder{color:#5a5a5e}
 
-    input:focus, textarea:focus{
+    input:focus, select:focus, textarea:focus{
       border-color:var(--accent);
       box-shadow:0 0 0 3px rgba(139,92,246,.18);
     }
@@ -345,6 +356,17 @@
             </div>
 
             <div class="field">
+              <label for="categoria">Categoría</label>
+              <select id="categoria" name="categoria" required>
+                <option value="" disabled selected>Selecciona una categoría</option>
+                <option value="Cantante">Cantante</option>
+                <option value="DJ">DJ</option>
+                <option value="Invitado Especial">Invitado Especial</option>
+                <option value="Musico">Músico</option>
+              </select>
+            </div>
+
+            <div class="field">
               <label for="contactName">Persona de contacto (producción)</label>
               <span class="sublabel">Manager, tour manager, producción, etc. — con quien coordinaremos logística y horarios.</span>
               <input id="contactName" name="contactName" type="text" autocomplete="name" required />
@@ -456,6 +478,7 @@
 
       var payload = {
         nombre: document.getElementById('artistName').value.trim(),
+        categoria: document.getElementById('categoria').value.trim(),
         contacto: document.getElementById('contactName').value.trim(),
         crew: crew,
         email: document.getElementById('email').value.trim(),
