@@ -211,7 +211,7 @@
       line-height:1.5;
     }
 
-    .success{
+    .success, .closed{
       display:none;
       border:1px solid var(--line);
       border-left:3px solid var(--accent);
@@ -220,9 +220,9 @@
       line-height:1.6;
     }
 
-    .success h2{margin-top:0;font-size:22px}
-    .success p{color:var(--muted)}
-    .success p:last-child{color:#6f6d68;font-size:14px;margin-bottom:0}
+    .success h2, .closed h2{margin-top:0;font-size:22px}
+    .success p, .closed p{color:var(--muted)}
+    .success p:last-child, .closed p:last-child{color:#6f6d68;font-size:14px;margin-bottom:0}
 
     @media (max-width:860px){
       .page{grid-template-columns:1fr}
@@ -322,6 +322,12 @@
           </p>
           <p>Esta confirmación no constituye un boleto ni garantiza acceso al evento.</p>
         </div>
+
+        <div class="closed" id="closedMessage">
+          <h2>La lista de Friends & Family está cerrada.</h2>
+          <p>Ya no estamos aceptando más solicitudes de Friends & Family para este evento.</p>
+          <p>Aún hay boletos disponibles en la boletería y se estarán vendiendo también en la entrada del evento.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -331,6 +337,12 @@
     // givenagenda.com, el endpoint vive en mygivenagenda.com — llamada
     // cross-domain, requiere CORS habilitado del lado del portal.
     var API_ENDPOINT = 'https://mygivenagenda.com/api/friends-family';
+
+    var REGISTRO_CERRADO = true;
+    if (REGISTRO_CERRADO) {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('closedMessage').style.display = 'block';
+    }
 
     var form = document.getElementById('guestForm');
     var submitBtn = document.getElementById('submitBtn');
