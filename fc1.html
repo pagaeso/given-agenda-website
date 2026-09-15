@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Given Agenda — Reservar una llamada</title>
+<meta name="robots" content="noindex, nofollow" />
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#0f0f11; --surface:#18181b; --surface2:#222226; --surface3:#2a2a30;
+    --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+    --text:#f0f0f2; --muted:#71717a; --muted2:#52525b;
+    --accent:#a78bfa; --accent-solid:#7c3aed; --accent-solid-hover:#6d28d9; --accent-soft:rgba(167,139,250,0.13);
+    --green:#4ade80; --green-bg:rgba(74,222,128,0.1);
+    --red:#f87171; --red-bg:rgba(248,113,113,0.1);
+    --r:10px; --r-sm:6px;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size:14px; line-height:1.5;
+  }
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+
+  .wrap{max-width:460px; margin:0 auto; padding:28px 16px 56px;}
+
+  .logo-row{text-align:center; margin-bottom:22px;}
+  .logo-row img{height:24px; width:auto;}
+  .logo-row .sub{color:var(--muted); font-size:12.5px; margin-top:10px; line-height:1.5;}
+
+  .phone-shell{
+    background:var(--surface); border:1px solid var(--border2);
+    border-radius:20px; padding:24px 20px 26px; box-shadow:0 20px 50px -25px rgba(0,0,0,.6);
+  }
+
+  .stepper{display:flex; align-items:center; gap:6px; margin-bottom:18px;}
+  .stepper .seg{flex:1; height:4px; border-radius:3px; background:var(--surface3);}
+  .stepper .seg.done{background:var(--accent-solid);}
+  .step-meta{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+  .step-meta .step-count{font-size:10.5px; color:var(--muted2); font-weight:700; letter-spacing:.05em; text-transform:uppercase;}
+  .step-meta h3{margin:3px 0 0; font-size:16.5px; color:var(--text);}
+  .step-meta .step-sub{font-size:12px; color:var(--muted); margin-top:2px;}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px;}
+  .field input[type=text], .field input[type=tel], .field input[type=date], .field textarea, .field select{
+    width:100%; padding:11px 12px; border-radius:var(--r-sm); border:1px solid var(--border2);
+    background:var(--surface2); color:var(--text); font-size:14px; outline:none; font-family:inherit;
+    appearance:none; -webkit-appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2371717a'><path d='M5.5 7.5l4.5 4.5 4.5-4.5' stroke='%2371717a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+  .field textarea{resize:vertical; min-height:90px;}
+  .field input:focus, .field textarea:focus, .field select:focus{border-color:var(--accent);}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+  .chip-group{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    border:1px solid var(--border2); background:var(--surface2); color:var(--text);
+    padding:8px 13px; border-radius:999px; font-size:12.5px; cursor:pointer; font-weight:600;
+  }
+  .chip.selected{background:var(--accent-solid); border-color:var(--accent-solid); color:#fff;}
+
+  .day-block{border:1px solid var(--border2); border-radius:var(--r); padding:10px 12px; margin-bottom:8px;}
+  .day-block .day-title{font-size:11px; font-weight:700; color:var(--muted); margin-bottom:8px; display:flex; justify-content:space-between; text-transform:uppercase; letter-spacing:.03em;}
+  .day-title .badge{background:var(--accent-soft); color:var(--accent); border-radius:6px; padding:1px 7px; font-size:10px; font-weight:700; text-transform:none; letter-spacing:0;}
+  .slot-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;}
+  .slot{
+    border:1px solid var(--border2); background:var(--surface2); border-radius:var(--r-sm); padding:9px 4px;
+    text-align:center; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--text);
+  }
+  .slot.taken{opacity:.35; cursor:not-allowed; text-decoration:line-through;}
+  .slot.selected{background:var(--accent-solid); border-color:var(--accent-solid); color:#fff;}
+  .slots-loading{color:var(--muted); font-size:12.5px; padding:10px 2px;}
+
+  .nav-row{display:flex; gap:10px; margin-top:18px;}
+  .btn-back{
+    flex:0 0 auto; padding:13px 16px; border-radius:var(--r); border:1px solid var(--border2);
+    background:transparent; color:var(--text); font-weight:700; font-size:13.5px; cursor:pointer; font-family:inherit;
+  }
+  .btn-back:hover{border-color:var(--accent);}
+  .btn-next{
+    flex:1; padding:13px; border:none; border-radius:var(--r); background:var(--accent-solid);
+    color:#fff; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit;
+  }
+  .btn-next:hover:not(:disabled){background:var(--accent-solid-hover);}
+  .btn-next:disabled{opacity:.35; cursor:not-allowed;}
+  .helper{font-size:11.5px; color:var(--muted); margin-top:8px; text-align:center;}
+  .optional-tag{font-weight:400; color:var(--muted2); text-transform:none; letter-spacing:0; font-size:11px;}
+
+  .form-error{
+    display:none; margin:0 0 16px; padding:12px 14px; border-radius:var(--r-sm);
+    border:1px solid rgba(248,113,113,0.3); background:var(--red-bg); color:var(--red); font-size:12.5px; line-height:1.5;
+  }
+
+  .confirm-box{text-align:center; padding:30px 10px;}
+  .confirm-box .check{
+    width:52px; height:52px; border-radius:50%; background:var(--green-bg); color:var(--green);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:26px;
+  }
+  .confirm-box h3{margin:0 0 6px; color:var(--text);}
+  .confirm-box p{color:var(--muted); margin:0 0 4px;}
+  .confirm-box .slotline{
+    display:inline-block; margin-top:12px; background:var(--accent-soft); color:var(--accent);
+    padding:8px 16px; border-radius:var(--r); font-weight:700; font-size:13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="logo-row">
+    <img src="logo.png" alt="Given Agenda">
+    <div class="sub">Cuéntanos de tu evento y agenda una llamada</div>
+  </div>
+
+  <div class="phone-shell">
+
+    <div id="formStep">
+      <div class="form-error" id="formError"></div>
+
+      <div class="stepper" id="stepperBar"></div>
+
+      <!-- STEP 1: Persona -->
+      <div class="step-panel" data-step="0">
+        <div class="step-meta">
+          <div>
+            <div class="step-count">PASO 1 DE 4</div>
+            <h3>Sobre ti</h3>
+            <div class="step-sub">Lo básico para saber con quién hablamos.</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Nombre y apellido</label>
+          <input type="text" id="f_nombre" placeholder="Julian Castro">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Número de teléfono</label>
+            <input type="tel" id="f_telefono" placeholder="+1 787 555 0102">
+          </div>
+          <div class="field">
+            <label>Instagram</label>
+            <input type="text" id="f_instagram" placeholder="@elite.ent">
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Qué eres?</label>
+          <select id="f_rol">
+            <option value="" disabled selected>Selecciona una opción</option>
+            <option>Agencia</option>
+            <option>Agente de booking</option>
+            <option>Dueño de club/discoteca</option>
+            <option>Independiente</option>
+            <option>Manejador</option>
+            <option>Productor de eventos</option>
+            <option>Promotor</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Empresa <span class="optional-tag">(opcional)</span></label>
+          <input type="text" id="f_empresa" placeholder="Elite Ent">
+        </div>
+      </div>
+
+      <!-- STEP 2: Evento -->
+      <div class="step-panel" data-step="1" hidden>
+        <div class="step-meta">
+          <div>
+            <div class="step-count">PASO 2 DE 4</div>
+            <h3>El evento</h3>
+            <div class="step-sub">Dónde y qué tipo de evento quieren hacer.</div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>País</label>
+            <select id="f_pais">
+              <option value="" disabled selected>Selecciona un país</option>
+              <option>Puerto Rico</option>
+              <option>Estados Unidos</option>
+              <option>España</option>
+              <option>Argentina</option>
+              <option>Bolivia</option>
+              <option>Canadá</option>
+              <option>Chile</option>
+              <option>Colombia</option>
+              <option>Costa Rica</option>
+              <option>Ecuador</option>
+              <option>El Salvador</option>
+              <option>Honduras</option>
+              <option>México</option>
+              <option>Nicaragua</option>
+              <option>Panamá</option>
+              <option>Paraguay</option>
+              <option>Perú</option>
+              <option>República Dominicana</option>
+              <option>Uruguay</option>
+              <option>Venezuela</option>
+              <option value="__otro">Otro</option>
+            </select>
+            <input type="text" id="f_pais_otro" placeholder="Escribe el país" style="margin-top:8px;" hidden>
+          </div>
+          <div class="field">
+            <label>Ciudad</label>
+            <input type="text" id="f_ciudad" placeholder="San Juan">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Tipo de evento</label>
+          <div class="chip-group" id="tipoEventoGroup">
+            <div class="chip" data-val="Discoteca/Club">Discoteca/Club</div>
+            <div class="chip" data-val="Festival">Festival</div>
+            <div class="chip" data-val="Privado">Privado</div>
+            <div class="chip" data-val="Otro">Otro</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Fecha interesada para el evento <span class="optional-tag">(opcional)</span></label>
+          <input type="date" id="f_fecha_evento">
+        </div>
+      </div>
+
+      <!-- STEP 3: Llamada -->
+      <div class="step-panel" data-step="2" hidden>
+        <div class="step-meta">
+          <div>
+            <div class="step-count">PASO 3 DE 4</div>
+            <h3>Programar la llamada</h3>
+            <div class="step-sub">Elige un horario disponible en las próximas 24 horas.</div>
+          </div>
+        </div>
+        <div id="slotsWrap"><div class="slots-loading">Cargando horarios disponibles…</div></div>
+      </div>
+
+      <!-- STEP 4: Notas -->
+      <div class="step-panel" data-step="3" hidden>
+        <div class="step-meta">
+          <div>
+            <div class="step-count">PASO 4 DE 4</div>
+            <h3>Algo más? <span class="optional-tag">(opcional)</span></h3>
+            <div class="step-sub">Si ya tienes una propuesta de presupuesto o algo que quieras compartir antes de la llamada.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notas</label>
+          <textarea id="f_notas" placeholder="Ej: presupuesto estimado, artista específico, fecha alterna, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-back" id="backBtn" onclick="goStep(-1)" hidden>Atrás</button>
+        <button class="btn-next" id="nextBtn" onclick="goStep(1)" disabled>Siguiente</button>
+      </div>
+      <p class="helper" id="helperText">Te contactaremos al número que dejaste, en el horario elegido.</p>
+    </div>
+
+    <div id="confirmStep" hidden>
+      <div class="confirm-box">
+        <div class="check">✓</div>
+        <h3>¡Listo!</h3>
+        <p>Recibimos tu información.</p>
+        <p>Te llamaremos:</p>
+        <div class="slotline" id="confirmSlotLine">—</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Backend: Given Agenda OS (Notion vía API interna). Form vive en
+  // givenagenda.com/fc1, el endpoint vive en mygivenagenda.com — llamada
+  // cross-domain, requiere CORS habilitado del lado del portal.
+  var API_BASE = 'https://mygivenagenda.com/api/llamadas';
+
+  var TOTAL_STEPS = 4;
+  var currentStep = 0;
+  var stepperBar = document.getElementById('stepperBar');
+  for (var i = 0; i < TOTAL_STEPS; i++) {
+    var seg = document.createElement('div');
+    seg.className = 'seg';
+    seg.id = 'seg' + i;
+    stepperBar.appendChild(seg);
+  }
+
+  function renderStepper() {
+    for (var i = 0; i < TOTAL_STEPS; i++) {
+      document.getElementById('seg' + i).classList.toggle('done', i <= currentStep);
+    }
+  }
+
+  function showStepPanel(idx) {
+    document.querySelectorAll('.step-panel').forEach(function (p) {
+      p.hidden = (parseInt(p.dataset.step, 10) !== idx);
+    });
+    document.getElementById('backBtn').hidden = (idx === 0);
+    var nextBtn = document.getElementById('nextBtn');
+    nextBtn.textContent = (idx === TOTAL_STEPS - 1) ? 'Confirmar llamada' : 'Siguiente';
+    var helper = document.getElementById('helperText');
+    helper.textContent = (idx === TOTAL_STEPS - 1)
+      ? 'Puedes dejar esto en blanco si prefieres contarnos todo en la llamada.'
+      : 'Te contactaremos al número que dejaste, en el horario elegido.';
+    renderStepper();
+    checkStepValid();
+  }
+
+  function goStep(dir) {
+    if (dir > 0 && document.getElementById('nextBtn').disabled) return;
+    if (dir > 0 && currentStep === TOTAL_STEPS - 1) { submitForm(); return; }
+    currentStep = Math.min(TOTAL_STEPS - 1, Math.max(0, currentStep + dir));
+    showStepPanel(currentStep);
+  }
+
+  // ---------- slots (horarios reales, calculados por el backend) ----------
+  var selectedSlot = null; // { dayOffset, key, label }
+  var slotsWrap = document.getElementById('slotsWrap');
+  var slotsLoaded = false;
+
+  function loadSlots() {
+    fetch(API_BASE + '/disponibilidad')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data.days) throw new Error('respuesta inválida');
+        renderSlots(data.days);
+        slotsLoaded = true;
+      })
+      .catch(function () {
+        slotsWrap.innerHTML = '<div class="slots-loading">No se pudieron cargar los horarios. Intenta de nuevo en unos minutos.</div>';
+      });
+  }
+
+  function renderSlots(days) {
+    slotsWrap.innerHTML = '';
+    days.forEach(function (day) {
+      var block = document.createElement('div');
+      block.className = 'day-block';
+      block.innerHTML = '<div class="day-title"><span>' + day.label + ' · ' + day.dateLabel + '</span><span class="badge">próx. 24h</span></div>';
+      var grid = document.createElement('div');
+      grid.className = 'slot-grid';
+      day.slots.forEach(function (slot) {
+        var el = document.createElement('div');
+        el.className = 'slot' + (slot.available ? '' : ' taken');
+        el.textContent = slot.label;
+        if (slot.available) {
+          el.onclick = function () {
+            document.querySelectorAll('.slot').forEach(function (s) { s.classList.remove('selected'); });
+            el.classList.add('selected');
+            selectedSlot = { dayOffset: day.dayOffset, key: slot.key, label: slot.label + ' · ' + day.label + ', ' + day.dateLabel };
+            checkStepValid();
+          };
+        }
+        grid.appendChild(el);
+      });
+      block.appendChild(grid);
+      slotsWrap.appendChild(block);
+    });
+  }
+
+  // ---------- tipo evento chips ----------
+  var selectedTipo = null;
+  document.querySelectorAll('#tipoEventoGroup .chip').forEach(function (chip) {
+    chip.onclick = function () {
+      document.querySelectorAll('#tipoEventoGroup .chip').forEach(function (c) { c.classList.remove('selected'); });
+      chip.classList.add('selected');
+      selectedTipo = chip.dataset.val;
+      checkStepValid();
+    };
+  });
+
+  // ---------- validation per step ----------
+  var step1Ids = ['f_nombre', 'f_telefono', 'f_instagram'];
+  var step2Ids = ['f_ciudad'];
+  step1Ids.concat(step2Ids).forEach(function (id) {
+    document.getElementById(id).addEventListener('input', checkStepValid);
+  });
+  document.getElementById('f_rol').addEventListener('change', checkStepValid);
+
+  var paisSelect = document.getElementById('f_pais');
+  var paisOtro = document.getElementById('f_pais_otro');
+  paisSelect.addEventListener('change', function () {
+    paisOtro.hidden = paisSelect.value !== '__otro';
+    if (!paisOtro.hidden) paisOtro.focus();
+    checkStepValid();
+  });
+  paisOtro.addEventListener('input', checkStepValid);
+
+  function getPaisValue() {
+    if (paisSelect.value === '__otro') return paisOtro.value.trim();
+    return paisSelect.value;
+  }
+
+  function checkStepValid() {
+    var nextBtn = document.getElementById('nextBtn');
+    var ok = true;
+    if (currentStep === 0) {
+      ok = step1Ids.every(function (id) { return document.getElementById(id).value.trim().length > 0; })
+        && !!document.getElementById('f_rol').value;
+    } else if (currentStep === 1) {
+      ok = step2Ids.every(function (id) { return document.getElementById(id).value.trim().length > 0; })
+        && !!getPaisValue()
+        && !!selectedTipo;
+    } else if (currentStep === 2) {
+      ok = !!selectedSlot;
+    } else if (currentStep === 3) {
+      ok = true; // notas es opcional
+    }
+    nextBtn.disabled = !ok;
+  }
+
+  // ---------- submit ----------
+  function submitForm() {
+    var nextBtn = document.getElementById('nextBtn');
+    var errorBox = document.getElementById('formError');
+    errorBox.style.display = 'none';
+    nextBtn.disabled = true;
+    nextBtn.textContent = 'Enviando…';
+
+    var payload = {
+      nombre: document.getElementById('f_nombre').value.trim(),
+      telefono: document.getElementById('f_telefono').value.trim(),
+      instagram: document.getElementById('f_instagram').value.trim(),
+      rol: document.getElementById('f_rol').value,
+      empresa: document.getElementById('f_empresa').value.trim(),
+      ciudad: document.getElementById('f_ciudad').value.trim(),
+      pais: getPaisValue(),
+      tipoEvento: selectedTipo,
+      fechaEvento: document.getElementById('f_fecha_evento').value || undefined,
+      slotDay: selectedSlot.dayOffset,
+      slotKey: selectedSlot.key,
+      notas: document.getElementById('f_notas').value.trim(),
+      origen: 'Form web',
+    };
+
+    fetch(API_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok || data.error) throw new Error(data.error || 'No se pudo enviar tu solicitud.');
+          return data;
+        });
+      })
+      .then(function (data) {
+        document.getElementById('formStep').hidden = true;
+        document.getElementById('confirmStep').hidden = false;
+        document.getElementById('confirmSlotLine').textContent = data.rangoHorario || selectedSlot.label;
+      })
+      .catch(function (e) {
+        // Si el horario elegido ya no está disponible (se lo ganaron o ya
+        // pasó), refrescamos los slots reales para que elija otro.
+        errorBox.textContent = e.message || 'Hubo un problema al enviar tu solicitud. Intenta de nuevo en unos minutos.';
+        errorBox.style.display = 'block';
+        nextBtn.disabled = false;
+        nextBtn.textContent = 'Confirmar llamada';
+        selectedSlot = null;
+        currentStep = 2;
+        showStepPanel(2);
+        loadSlots();
+      });
+  }
+
+  // init
+  loadSlots();
+  showStepPanel(0);
+</script>
+</body>
+</html>
