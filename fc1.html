@@ -48,7 +48,7 @@
 
   .field{margin-bottom:14px;}
   .field label{display:block; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px;}
-  .field input[type=text], .field input[type=tel], .field input[type=date], .field textarea, .field select{
+  .field input[type=text], .field input[type=tel], .field input[type=email], .field input[type=date], .field textarea, .field select{
     width:100%; padding:11px 12px; border-radius:var(--r-sm); border:1px solid var(--border2);
     background:var(--surface2); color:var(--text); font-size:14px; outline:none; font-family:inherit;
     appearance:none; -webkit-appearance:none;
@@ -151,6 +151,10 @@
             <label>Instagram</label>
             <input type="text" id="f_instagram" placeholder="@elite.ent">
           </div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="f_email" placeholder="tucorreo@ejemplo.com">
         </div>
         <div class="field">
           <label>¿Qué eres?</label>
@@ -381,7 +385,8 @@
   });
 
   // ---------- validation per step ----------
-  var step1Ids = ['f_nombre', 'f_telefono', 'f_instagram'];
+  var step1Ids = ['f_nombre', 'f_telefono', 'f_email', 'f_instagram'];
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var step2Ids = ['f_ciudad'];
   step1Ids.concat(step2Ids).forEach(function (id) {
     document.getElementById(id).addEventListener('input', checkStepValid);
@@ -407,6 +412,7 @@
     var ok = true;
     if (currentStep === 0) {
       ok = step1Ids.every(function (id) { return document.getElementById(id).value.trim().length > 0; })
+        && EMAIL_RE.test(document.getElementById('f_email').value.trim())
         && !!document.getElementById('f_rol').value;
     } else if (currentStep === 1) {
       ok = step2Ids.every(function (id) { return document.getElementById(id).value.trim().length > 0; })
@@ -431,6 +437,7 @@
     var payload = {
       nombre: document.getElementById('f_nombre').value.trim(),
       telefono: document.getElementById('f_telefono').value.trim(),
+      email: document.getElementById('f_email').value.trim(),
       instagram: document.getElementById('f_instagram').value.trim(),
       rol: document.getElementById('f_rol').value,
       empresa: document.getElementById('f_empresa').value.trim(),
