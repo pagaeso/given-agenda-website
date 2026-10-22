@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Formulario W-9 — Given Agenda</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <style>
+    :root{
+      --bg:#0b0b0c; --bg-alt:#131315; --card:#17171a; --text:#f2f1ee; --muted:#a8a6a1;
+      --line:#26262a; --accent:#8b5cf6; --accent-text:#14140f; --error:#e05c5c; --ok:#4ade80;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
+    .top{padding:24px 20px;border-bottom:1px solid var(--line);background:var(--bg-alt)}
+    .top img{height:24px;display:block}
+    .wrap{width:min(100%,640px);margin:0 auto;padding:32px 20px 80px}
+    .eyebrow{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
+    h1{font-size:34px;line-height:1.05;letter-spacing:-.02em;margin:0 0 14px}
+    .lead{color:var(--muted);line-height:1.6;margin:0 0 28px;font-size:15px}
+    .notice{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);border-left:3px solid var(--accent);border-radius:4px;padding:16px 18px;margin:0 0 28px;font-size:14px;line-height:1.6;color:#e7e1fc}
+    .notice p{margin:0} .notice p+p{margin-top:10px}
+    fieldset{border:0;margin:0 0 30px;padding:0}
+    legend{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;padding:0}
+    .field{margin-bottom:18px}
+    label{display:block;font-size:14px;font-weight:650;margin-bottom:7px}
+    .hint{font-size:12px;color:var(--muted);font-weight:400;margin-top:6px;line-height:1.45}
+    input[type=text],input[type=email],input[type=password],select{width:100%;height:50px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 14px;font-size:16px;outline:none;font-family:inherit;border-radius:0;-webkit-appearance:none;appearance:none}
+    input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(139,92,246,.18)}
+    input::placeholder{color:#5a5a5e}
+    .opts{display:grid;gap:8px}
+    .opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--card);padding:13px 14px;cursor:pointer;font-size:15px;font-weight:500;margin:0}
+    .opt input{width:18px;height:18px;margin:0;accent-color:var(--accent);flex:0 0 auto}
+    .opt:has(input:checked){border-color:var(--accent);background:rgba(139,92,246,.10)}
+    .sub{margin:10px 0 0 30px}
+    .check{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text);font-weight:400;margin:0}
+    .check input{width:18px;height:18px;margin-top:2px;flex:0 0 auto;accent-color:var(--accent)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--line);background:var(--bg-alt);padding:14px 16px;margin-bottom:18px}
+    summary{cursor:pointer;font-size:14px;font-weight:650}
+    details[open] summary{margin-bottom:14px}
+    .tinwrap{position:relative}
+    .tinwrap button{position:absolute;right:6px;top:7px;width:auto;height:36px;padding:0 12px;background:transparent;border:1px solid var(--line);color:var(--muted);font-size:12px;border-radius:4px}
+    .cert{background:var(--bg-alt);border:1px solid var(--line);padding:16px 18px;font-size:13px;line-height:1.55;color:#d8d6d0;margin-bottom:16px}
+    .cert ol{margin:8px 0 0;padding-left:20px} .cert li{margin-bottom:6px}
+    .cert li.tachado{text-decoration:line-through;color:var(--muted)}
+    .sig-box{border:1px dashed #4a4a50;background:#fff;position:relative;touch-action:none;height:180px}
+    .sig-box canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+    .sig-line{position:absolute;left:16px;right:16px;bottom:42px;border-bottom:1px solid #c9c9c9;pointer-events:none}
+    .sig-x{position:absolute;left:18px;bottom:46px;color:#9a9a9a;font-size:18px;pointer-events:none}
+    .sig-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b0b0b0;font-size:14px;pointer-events:none}
+    .sig-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)}
+    .link-btn{background:none;border:0;color:var(--accent);font-size:13px;font-weight:650;cursor:pointer;padding:6px 0;width:auto;height:auto}
+    button.primary{width:100%;height:54px;border:0;border-radius:4px;background:var(--accent);color:var(--accent-text);font-size:15px;font-weight:700;letter-spacing:.03em;cursor:pointer}
+    button.primary:disabled{opacity:.5;cursor:default}
+    .errors{display:none;margin:0 0 20px;padding:14px 16px;border:1px solid var(--error);background:rgba(224,92,92,.1);color:var(--error);font-size:14px;line-height:1.5}
+    .errors ul{margin:6px 0 0;padding-left:18px}
+    .state{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--bg-alt);padding:24px;line-height:1.6}
+    .state h2{margin:0 0 10px;font-size:22px} .state p{color:var(--muted);margin:0 0 12px}
+    .fine{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}
+    .hidden{display:none !important}
+    @media (max-width:520px){ .row{grid-template-columns:1fr} h1{font-size:30px} }
+  </style>
+</head>
+<body>
+  <header class="top"><img src="logo.png" alt="Given Agenda"></header>
+
+  <main class="wrap">
+    <div id="cargando" class="state"><p>Verificando tu enlace…</p></div>
+
+    <div id="invalido" class="state hidden">
+      <h2>Enlace no disponible</h2>
+      <p id="invalidoMsg">Este enlace no es válido, ya fue usado o expiró.</p>
+      <p>Pide uno nuevo a Given Agenda escribiendo a booking@givenagenda.com.</p>
+    </div>
+
+    <div id="exito" class="state hidden">
+      <h2>Tu W-9 quedó firmada.</h2>
+      <p>Recibimos tu formulario. Descarga tu copia en PDF y guárdala; contiene tu número de identificación, así que no la compartas por canales inseguros.</p>
+      <p><button class="primary" id="descargarBtn" type="button">Descargar mi W-9 (PDF)</button></p>
+      <p class="fine">Si algún dato está mal, avísanos y te enviamos un enlace nuevo.</p>
+    </div>
+
+    <div id="formContent" class="hidden">
+      <div class="eyebrow">Given Agenda · IRS Form W-9</div>
+      <h1>Formulario W-9</h1>
+      <p class="lead">Completa tus datos y firma con el dedo. Con esto llenamos la W-9 oficial del IRS (<span id="revision">Rev. March 2024</span>) y al final podrás descargarla firmada.</p>
+
+      <div class="notice">
+        <p><strong>Tu información está protegida.</strong> Tu SSN o EIN solo se usa para llenar el PDF; no se guarda en ningún otro lugar.</p>
+        <p>Usa tu nombre exactamente como aparece en tu planilla de impuestos (tax return).</p>
+      </div>
+
+      <div class="errors" id="errores"></div>
+
+      <form id="w9Form" novalidate autocomplete="on">
+        <fieldset>
+          <legend>Nombre</legend>
+          <div class="field">
+            <label for="nombre">Nombre legal (línea 1) *</label>
+            <input type="text" id="nombre" autocomplete="name" maxlength="120" required>
+            <div class="hint">Si eres sole proprietor o una LLC de un solo dueño (disregarded entity), aquí va el nombre del dueño.</div>
+          </div>
+          <div class="field">
+            <label for="negocio">Nombre del negocio / DBA (línea 2)</label>
+            <input type="text" id="negocio" maxlength="120">
+            <div class="hint">Solo si es distinto al de la línea 1.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Clasificación tributaria (línea 3a) *</legend>
+          <div class="opts" id="clasOpts">
+            <label class="opt"><input type="radio" name="clas" value="Individual/sole proprietor"> Individual / sole proprietor</label>
+            <label class="opt"><input type="radio" name="clas" value="C corporation"> C corporation</label>
+            <label class="opt"><input type="radio" name="clas" value="S corporation"> S corporation</label>
+            <label class="opt"><input type="radio" name="clas" value="Partnership"> Partnership</label>
+            <label class="opt"><input type="radio" name="clas" value="Trust/estate"> Trust / estate</label>
+            <label class="opt"><input type="radio" name="clas" value="LLC"> LLC</label>
+            <div class="sub hidden" id="llcBox">
+              <label for="llcCodigo">¿Cómo tributa la LLC?</label>
+              <select id="llcCodigo">
+                <option value="">Selecciona…</option>
+                <option value="C">C — C corporation</option>
+                <option value="S">S — S corporation</option>
+                <option value="P">P — Partnership</option>
+              </select>
+              <div class="hint">Si tu LLC es de un solo dueño y no eligió tributar como corporación (disregarded entity), no marques LLC: marca la clasificación del dueño (normalmente Individual).</div>
+            </div>
+            <label class="opt"><input type="radio" name="clas" value="Other"> Other</label>
+            <div class="sub hidden" id="otroBox">
+              <label for="otroDescripcion">Describe la clasificación</label>
+              <input type="text" id="otroDescripcion" maxlength="80">
+            </div>
+          </div>
+          <div class="field hidden" id="box3b" style="margin-top:16px">
+            <label class="check"><input type="checkbox" id="socios3b"> <span>Línea 3b: tengo socios, dueños o beneficiarios extranjeros y entrego esta W-9 a una partnership, trust o estate en la que tengo participación.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dirección</legend>
+          <div class="field">
+            <label for="direccion">Dirección (línea 5) *</label>
+            <input type="text" id="direccion" autocomplete="street-address" maxlength="120" placeholder="Número, calle, apto.">
+          </div>
+          <div class="field">
+            <label for="ciudad">Ciudad, estado y ZIP (línea 6) *</label>
+            <input type="text" id="ciudad" maxlength="120" placeholder="San Juan, PR 00901">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Número de identificación (Parte I) *</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="tipoTin" value="SSN"> Social Security Number (SSN o ITIN)</label>
+            <label class="opt"><input type="radio" name="tipoTin" value="EIN"> Employer Identification Number (EIN)</label>
+            <label class="opt"><input type="radio" name="tipoTin" value="Applied For"> Lo solicité y todavía no lo tengo (Applied For)</label>
+          </div>
+          <div id="tinBox" class="hidden" style="margin-top:16px">
+            <div class="field">
+              <label for="tin" id="tinLabel">Número</label>
+              <div class="tinwrap">
+                <input type="password" id="tin" inputmode="numeric" autocomplete="off" maxlength="11">
+                <button type="button" id="verTin">Mostrar</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="tin2">Escríbelo otra vez para confirmar</label>
+              <input type="password" id="tin2" inputmode="numeric" autocomplete="off" maxlength="11">
+            </div>
+          </div>
+        </fieldset>
+
+        <details>
+          <summary>Exenciones y datos opcionales</summary>
+          <div class="hint" style="margin:-4px 0 14px">La mayoría de las personas deja esto en blanco. Las exenciones de la línea 4 aplican solo a ciertas entidades, no a individuos.</div>
+          <div class="row">
+            <div class="field"><label for="exempt">Exempt payee code</label><input type="text" id="exempt" maxlength="2"></div>
+            <div class="field"><label for="fatca">FATCA code</label><input type="text" id="fatca" maxlength="1"></div>
+          </div>
+          <div class="field"><label for="requester">Requester (nombre y dirección)</label><input type="text" id="requester" maxlength="120"></div>
+          <div class="field"><label for="cuentas">Número(s) de cuenta (línea 7)</label><input type="text" id="cuentas" maxlength="120"></div>
+        </details>
+
+        <fieldset>
+          <legend>Contacto</legend>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" autocomplete="email" maxlength="120">
+            <div class="hint">Opcional. Solo para contactarte si hay algún problema con tu W-9.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Certificación (Parte II)</legend>
+          <div class="cert">
+            Under penalties of perjury, I certify that:
+            <ol>
+              <li>The number shown on this form is my correct taxpayer identification number (or I am waiting for a number to be issued to me); and</li>
+              <li id="item2">I am not subject to backup withholding because (a) I am exempt from backup withholding, or (b) I have not been notified by the Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or (c) the IRS has notified me that I am no longer subject to backup withholding; and</li>
+              <li>I am a U.S. citizen or other U.S. person; and</li>
+              <li>The FATCA code(s) entered on this form (if any) indicating that I am exempt from FATCA reporting is correct.</li>
+            </ol>
+          </div>
+          <div class="field">
+            <label class="check"><input type="checkbox" id="backup"> <span>El IRS me notificó que estoy sujeto a backup withholding por no reportar todos mis intereses o dividendos. <span class="hint" style="display:inline">(Esto tacha el punto 2. Casi nadie marca esta casilla.)</span></span></label>
+          </div>
+          <div class="field">
+            <label class="check"><input type="checkbox" id="certifico"> <span><strong>Certifico bajo penalidad de perjurio</strong> que la información de este formulario es correcta y acepto firmarlo electrónicamente.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Firma *</legend>
+          <div class="sig-box" id="sigBox">
+            <div class="sig-ph" id="sigPh">Firma aquí con el dedo</div>
+            <div class="sig-x">✕</div>
+            <div class="sig-line"></div>
+            <canvas id="sig"></canvas>
+          </div>
+          <div class="sig-actions">
+            <span>Gira el teléfono si necesitas más espacio.</span>
+            <button type="button" class="link-btn" id="borrarFirma">Borrar firma</button>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="primary" id="enviarBtn">Firmar y enviar W-9</button>
+        <p class="fine">Al enviar se genera tu W-9 oficial con la fecha de hoy. Puedes descargarla al terminar.</p>
+      </form>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    // Backend: Given Agenda OS (mygivenagenda.com/api/w9/publico) — llamada
+    // cross-domain con CORS. El token viene en ?t= y es de un solo uso.
+    var API = 'https://mygivenagenda.com/api/w9/publico';
+    var token = new URLSearchParams(location.search).get('t') || '';
+    var $ = function (id) { return document.getElementById(id); };
+    var show = function (id) { ['cargando', 'invalido', 'exito', 'formContent'].forEach(function (x) { $(x).classList.toggle('hidden', x !== id); }); };
+
+    // ── Validar el link ──
+    if (!token) { show('invalido'); }
+    else {
+      fetch(API + '?t=' + encodeURIComponent(token)).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (x) {
+          if (!x.ok || !x.d.ok) { if (x.d && x.d.error) $('invalidoMsg').textContent = x.d.error; show('invalido'); return; }
+          if (x.d.revision) $('revision').textContent = x.d.revision;
+          show('formContent'); initFirma();
+        })
+        .catch(function () { $('invalidoMsg').textContent = 'No pudimos verificar tu enlace. Revisa tu conexión e intenta de nuevo.'; show('invalido'); });
+    }
+
+    // ── Lógica condicional de la W-9 ──
+    function val(name) { var el = document.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }
+    function permite3b() { var c = val('clas'); return c === 'Partnership' || c === 'Trust/estate' || (c === 'LLC' && $('llcCodigo').value === 'P'); }
+    function refrescar() {
+      var c = val('clas');
+      $('llcBox').classList.toggle('hidden', c !== 'LLC');
+      $('otroBox').classList.toggle('hidden', c !== 'Other');
+      var ok3b = permite3b();
+      $('box3b').classList.toggle('hidden', !ok3b);
+      if (!ok3b) $('socios3b').checked = false;
+      var t = val('tipoTin');
+      $('tinBox').classList.toggle('hidden', !t || t === 'Applied For');
+      $('tinLabel').textContent = t === 'EIN' ? 'EIN (9 dígitos)' : 'SSN o ITIN (9 dígitos)';
+      $('tin').placeholder = t === 'EIN' ? '00-0000000' : '000-00-0000';
+      $('item2').classList.toggle('tachado', $('backup').checked);
+    }
+    document.querySelectorAll('input[name=clas], input[name=tipoTin]').forEach(function (el) { el.addEventListener('change', refrescar); });
+    $('llcCodigo').addEventListener('change', refrescar);
+    $('backup').addEventListener('change', refrescar);
+
+    function formatearTin(el) {
+      var d = el.value.replace(/\D/g, '').slice(0, 9);
+      var t = val('tipoTin');
+      el.value = t === 'EIN' ? (d.length > 2 ? d.slice(0, 2) + '-' + d.slice(2) : d)
+        : (d.length > 5 ? d.slice(0, 3) + '-' + d.slice(3, 5) + '-' + d.slice(5) : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d);
+    }
+    ['tin', 'tin2'].forEach(function (id) { $(id).addEventListener('input', function () { formatearTin($(id)); }); });
+    $('verTin').addEventListener('click', function () {
+      var v = $('tin').type === 'password';
+      $('tin').type = v ? 'text' : 'password'; $('tin2').type = v ? 'text' : 'password';
+      $('verTin').textContent = v ? 'Ocultar' : 'Mostrar';
+    });
+
+    // ── Firma con el dedo ──
+    var canvas, ctx, dibujando = false, hayTrazo = false, ultimo = null;
+    function initFirma() {
+      canvas = $('sig'); ctx = canvas.getContext('2d');
+      ajustarCanvas();
+      window.addEventListener('resize', function () { if (!hayTrazo) ajustarCanvas(); });
+      canvas.addEventListener('pointerdown', function (e) { e.preventDefault(); canvas.setPointerCapture(e.pointerId); dibujando = true; ultimo = punto(e); punto0(ultimo); });
+      canvas.addEventListener('pointermove', function (e) { if (!dibujando) return; e.preventDefault(); var p = punto(e); linea(ultimo, p); ultimo = p; });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { canvas.addEventListener(ev, function () { dibujando = false; }); });
+      $('borrarFirma').addEventListener('click', function () { ctx.clearRect(0, 0, canvas.width, canvas.height); hayTrazo = false; $('sigPh').classList.remove('hidden'); });
+    }
+    function ajustarCanvas() {
+      var r = canvas.getBoundingClientRect(), dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0a1a5c'; ctx.lineWidth = 2.6;
+    }
+    function punto(e) { var r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    function punto0(p) { ctx.beginPath(); ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2); ctx.fillStyle = ctx.strokeStyle; ctx.fill(); marcar(); }
+    function linea(a, b) { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); marcar(); }
+    function marcar() { if (!hayTrazo) { hayTrazo = true; $('sigPh').classList.add('hidden'); } }
+
+    // Recorta la firma a su contenido (para que llene la línea del PDF).
+    function firmaRecortada() {
+      var w = canvas.width, h = canvas.height, data = ctx.getImageData(0, 0, w, h).data;
+      var minX = w, minY = h, maxX = -1, maxY = -1;
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+        if (data[(y * w + x) * 4 + 3] > 10) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+      }
+      if (maxX < 0) return '';
+      var pad = 6; minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad); maxX = Math.min(w - 1, maxX + pad); maxY = Math.min(h - 1, maxY + pad);
+      var cw = maxX - minX + 1, ch = maxY - minY + 1, esc = Math.min(1, 900 / cw);
+      var out = document.createElement('canvas'); out.width = Math.round(cw * esc); out.height = Math.round(ch * esc);
+      out.getContext('2d').drawImage(canvas, minX, minY, cw, ch, 0, 0, out.width, out.height);
+      return out.toDataURL('image/png');
+    }
+
+    // ── Enviar ──
+    function mostrarErrores(lista) {
+      var box = $('errores');
+      if (!lista.length) { box.style.display = 'none'; return; }
+      box.innerHTML = '<strong>Revisa lo siguiente:</strong><ul>' + lista.map(function (e) { return '<li>' + e.replace(/</g, '&lt;') + '</li>'; }).join('') + '</ul>';
+      box.style.display = 'block'; box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function datos() {
+      var t = val('tipoTin');
+      return {
+        nombre: $('nombre').value.trim(), negocio: $('negocio').value.trim(),
+        clasificacion: val('clas'), llcCodigo: $('llcCodigo').value, otroDescripcion: $('otroDescripcion').value.trim(),
+        socios3b: $('socios3b').checked, exemptPayee: $('exempt').value.trim(), fatca: $('fatca').value.trim(),
+        direccion: $('direccion').value.trim(), ciudadEstadoZip: $('ciudad').value.trim(),
+        requester: $('requester').value.trim(), cuentas: $('cuentas').value.trim(),
+        tipoTin: t, tin: t === 'Applied For' ? '' : $('tin').value.replace(/\D/g, ''),
+        backupNotificado: $('backup').checked, email: $('email').value.trim(), certifico: $('certifico').checked
+      };
+    }
+    function validar(d) {
+      var e = [];
+      if (!d.nombre) e.push('Falta el nombre (línea 1).');
+      if (!d.clasificacion) e.push('Selecciona la clasificación tributaria (línea 3a).');
+      if (d.clasificacion === 'LLC' && !d.llcCodigo) e.push('Si marcaste LLC, indica si tributa como C, S o P.');
+      if (d.clasificacion === 'Other' && !d.otroDescripcion) e.push('Describe la clasificación "Other".');
+      if (!d.direccion) e.push('Falta la dirección (línea 5).');
+      if (!d.ciudadEstadoZip) e.push('Falta ciudad, estado y ZIP (línea 6).');
+      if (!d.tipoTin) e.push('Indica si das SSN, EIN o "Applied For".');
+      else if (d.tipoTin !== 'Applied For') {
+        if (d.tin.length !== 9) e.push('El ' + d.tipoTin + ' debe tener 9 dígitos.');
+        else if ($('tin2').value.replace(/\D/g, '') !== d.tin) e.push('Los dos números de identificación no coinciden.');
+      }
+      if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) e.push('El email no es válido.');
+      if (!d.certifico) e.push('Debes aceptar la certificación.');
+      if (!hayTrazo) e.push('Falta tu firma.');
+      return e;
+    }
+
+    var pdfBlob = null, pdfNombre = 'W9.pdf';
+    $('w9Form').addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var d = datos(), errs = validar(d);
+      mostrarErrores(errs);
+      if (errs.length) return;
+      var btn = $('enviarBtn'); btn.disabled = true; btn.textContent = 'Generando tu W-9…';
+      fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token, datos: d, firma: firmaRecortada() }) })
+        .then(function (r) { return r.json().then(function (x) { return { ok: r.ok, x: x }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.x.ok) {
+            if (res.x.errores && res.x.errores.length) { mostrarErrores(res.x.errores); }
+            else if (res.x.error) { mostrarErrores([res.x.error]); }
+            else { mostrarErrores(['No se pudo procesar tu W-9. Intenta de nuevo.']); }
+            btn.disabled = false; btn.textContent = 'Firmar y enviar W-9'; return;
+          }
+          var bin = atob(res.x.pdf), arr = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          pdfBlob = new Blob([arr], { type: 'application/pdf' }); pdfNombre = res.x.filename || 'W9.pdf';
+          // Limpiar el TIN del DOM en cuanto ya no hace falta.
+          $('tin').value = ''; $('tin2').value = '';
+          show('exito'); window.scrollTo(0, 0);
+        })
+        .catch(function () {
+          mostrarErrores(['Hubo un problema de conexión. Intenta de nuevo en unos minutos.']);
+          btn.disabled = false; btn.textContent = 'Firmar y enviar W-9';
+        });
+    });
+    $('descargarBtn').addEventListener('click', function () {
+      if (!pdfBlob) return;
+      var url = URL.createObjectURL(pdfBlob), a = document.createElement('a');
+      a.href = url; a.download = pdfNombre; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    });
+  })();
+  </script>
+</body>
+</html>
