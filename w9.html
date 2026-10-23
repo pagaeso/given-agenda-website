@@ -79,6 +79,8 @@
       <h2>Tu W-9 quedó firmada.</h2>
       <p>Recibimos tu formulario. Descarga tu copia en PDF y guárdala; contiene tu número de identificación, así que no la compartas por canales inseguros.</p>
       <p><button class="primary" id="descargarBtn" type="button">Descargar mi W-9 (PDF)</button></p>
+      <p><a id="abrirPdf" class="link-btn" href="#" target="_blank" rel="noopener">Abrir el PDF en otra pestaña</a></p>
+      <p class="fine" id="inAppNota" style="display:none">Si la descarga no arranca, toca los tres puntos (⋯) arriba y elige “Abrir en el navegador”. Tu W-9 ya quedó recibida por Given Agenda de todas formas.</p>
       <p class="fine">Si algún dato está mal, avísanos y te enviamos un enlace nuevo.</p>
     </div>
 
@@ -361,7 +363,8 @@
       return e;
     }
 
-    var pdfBlob = null, pdfNombre = 'W9.pdf';
+    var pdfBlob = null, pdfUrl = '', pdfNombre = 'W9.pdf';
+    var esInApp = /FBAN|FBAV|Instagram|WhatsApp|Line\/|; wv\)|GSA\//i.test(navigator.userAgent);
     $('w9Form').addEventListener('submit', function (ev) {
       ev.preventDefault();
       var d = datos(), errs = validar(d);
@@ -380,6 +383,9 @@
           var bin = atob(res.x.pdf), arr = new Uint8Array(bin.length);
           for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
           pdfBlob = new Blob([arr], { type: 'application/pdf' }); pdfNombre = res.x.filename || 'W9.pdf';
+          pdfUrl = URL.createObjectURL(pdfBlob);
+          $('abrirPdf').href = pdfUrl;
+          if (esInApp) $('inAppNota').style.display = 'block';
           // Limpiar el TIN del DOM en cuanto ya no hace falta.
           $('tin').value = ''; $('tin2').value = '';
           show('exito'); window.scrollTo(0, 0);
@@ -389,12 +395,28 @@
           btn.disabled = false; btn.textContent = 'Firmar y enviar W-9';
         });
     });
+    // Descarga robusta: los links casi siempre se abren desde WhatsApp,
+    // Instagram o SMS, cuyos navegadores internos suelen bloquear a.download.
+    // Orden: compartir/guardar archivo (iOS/Android) -> descarga normal ->
+    // abrir el PDF en pestaña nueva.
     $('descargarBtn').addEventListener('click', function () {
       if (!pdfBlob) return;
-      var url = URL.createObjectURL(pdfBlob), a = document.createElement('a');
-      a.href = url; a.download = pdfNombre; document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      var file = null;
+      try { file = new File([pdfBlob], pdfNombre, { type: 'application/pdf' }); } catch (e) {}
+      if (file && navigator.canShare && navigator.canShare({ files: [file] }) && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        navigator.share({ files: [file], title: pdfNombre }).catch(function (err) {
+          if (!err || err.name !== 'AbortError') descargaNormal();
+        });
+        return;
+      }
+      descargaNormal();
     });
+    function descargaNormal() {
+      var a = document.createElement('a');
+      a.href = pdfUrl; a.download = pdfNombre; a.rel = 'noopener';
+      document.body.appendChild(a); a.click(); a.remove();
+      if (esInApp) setTimeout(function () { window.location.href = pdfUrl; }, 600);
+    }
   })();
   </script>
 </body>
